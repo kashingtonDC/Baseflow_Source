@@ -10,18 +10,14 @@ from rpy2.robjects.conversion import localconverter
 r = ro.r
 r['source']('baseflow_sep.R')
 
-
 # Loading the function we have defined in R.
 baseflow_sep = ro.globalenv['get_baseflow']
 
 # Reading and processing data
-df = pd.read_csv("../data/CDEC/runoff.csv")#.set_index('date')
-df.index = pd.to_datetime(df['date'])
-nodata_stids = ["MCR", "CFW"]
+df = pd.read_csv("../data/CDEC/runoff.csv")
 
-stids = [x for x in df.columns if x not in nodata_stids]
-
-df = df[stids].drop('date', axis = 1)
+df.rename(columns = {df.columns[0]: "date"}, inplace = True)
+df.set_index('date', inplace = True)
 
 # Setup results_dict
 sr_dfs_out = {}
@@ -45,19 +41,18 @@ for col in df.columns:
     outdf.index = df[col].dropna().index
     # outdf[outdf<0] = 0
     
-    outdir = "../data/baseflow_sep"
-    if not os.path.exists(outdir):
-        os.mkdir(outdir)
-    
-    outfn = os.path.join(outdir, "{}_bfs.csv".format(col))
-    if not os.path.exists(outfn):
-        outdf.to_csv(outfn)
-    
     bf_dfs_out[col] = outdf['bt']
     sr_dfs_out[col] = outdf['qft']
-    
-    # plt.figure(figsize =(14,5))
-    # plt.title(col)
-    # plt.plot(outdf.index, outdf['bt'], marker = "o", markersize = 1, alpha = 0.5)
-    # plt.plot(outdf.index, outdf['bt'] + outdf['qft'],  markersize = 1, alpha = 0.5)
-    # plt.show()
+
+# Save 
+outdir = "../data/baseflow_sep"
+if not os.path.exists(outdir):
+    os.mkdir(outdir)
+
+bf_outfn = os.path.join(outdir, "baseflow_mm.csv")
+if not os.path.exists(bf_outfn):
+    baseflow_df.to_csv(bf_outfn)
+
+sr_outfn = os.path.join(outdir, "surface_runoff_mm.csv")
+if not os.path.exists(sr_outfn):
+    surfrun_df.to_csv(sr_outfn)
