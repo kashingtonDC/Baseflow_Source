@@ -301,7 +301,7 @@ def main(stn_id):
 	prcp_fn_1d = "../data/Watersheds/1d/{}_1d_prcp.npy".format(stn_id)
 
 	# Set rolling window size
-	win_size = 30
+	win_size = 365
 
 	# setup results dir 
 	if not os.path.exists("../results"):
