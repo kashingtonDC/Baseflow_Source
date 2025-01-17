@@ -58,7 +58,7 @@ def extract_snofiles(filelist, writedir):
 	return [os.path.join(writedir,x) for x in os.listdir(writedir) if x.endswith(".gz")]
 
 
-def process_tarfile(tarfile, writedir, snovars = ['1044']):
+def process_tarfile(tarfile, writedir, snovars = ['1044','1025']):
 	'''
 	For the files that have been downloaded, 
 	(0) untar file, 
@@ -127,7 +127,7 @@ def dat2tif(datfiles, writedir):
 	"1034": "SNWE",
 	"1044": "SMLT",
 	})
-	
+
 	outfnsv1 = {}
 
 	for file in datfiles:
@@ -140,10 +140,10 @@ def dat2tif(datfiles, writedir):
 	for k,v in outfnsv1.items():
 		if "PREC" in v:
 			if "L01" in k:
-				outfnsvf[k] = os.path.join(writedir,os.path.splitext(v)[0]+"LQD.tif")
+				outfnsvf[k] = os.path.join(writedir,os.path.splitext(v)[0]+"SOL.tif")
 
 			if "L00" in k:
-				outfnsvf[k] = os.path.join(writedir,os.path.splitext(v)[0]+"SOL.tif")
+				outfnsvf[k] = os.path.join(writedir,os.path.splitext(v)[0]+"LQD.tif")
 		else:
 			outfnsvf[k]= os.path.join(writedir,v)
 
@@ -200,7 +200,9 @@ def main():
 	dirlist = ftp.nlst()
 	yeardirs = [os.path.join(data_dir,x) for x in dirlist if "." not in x]
 
-	for y in yeardirs[:]:
+	yeardirs.sort()
+
+	for y in yeardirs[:-3]: 
 		ftp = login_to_ftp(ftproot,data_dir)
 		tarfiles = download_snodat(y, ftp, writedir = tar_dir)
 		
@@ -239,14 +241,17 @@ def main():
 			for gzl in gz_leftovers:
 				os.remove(gzl)
 
-			# # Cleanup the solid precip files (we dont need them)
+			# Cleanup the solid precip files (we dont need them)
+
+			# tif dir 
 			solP_files = [os.path.join(tif_dir,x) for x in os.listdir(tif_dir) if "SOL" in x]
 			for file in solP_files:
 				os.remove(file)
 
-			# solP_files = [os.path.join(out_dir,x) for x in os.listdir(out_dir) if "SOL" in x]
-			# for file in solP_files:
-			# 	os.remove(file)
+			# out dir 
+			solP_files = [os.path.join(out_dir,x) for x in os.listdir(out_dir) if "SOL" in x]
+			for file in solP_files:
+				os.remove(file)
 
 if __name__ == '__main__':
 	main()
