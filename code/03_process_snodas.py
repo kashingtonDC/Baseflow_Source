@@ -28,14 +28,15 @@ def main():
 	gdf = gp.read_file("../shape/sierra_catchments.shp")
 
 	# Setup dirs 
-	smlt_dir = "../../snodas_box/data/SMLT/"
-	prcp_dir = "../../snodas_box/data/PLQD/"
+	# smlt_dir = "../data/SMLT/"
+	# prcp_dir = "../data/PLQD/"
+	snodas_dir = "../data/SNODAS/SNODAS_processed"
 
 	# Get lists of files 
-	smlt_files = [os.path.join(smlt_dir,x) for x in os.listdir(smlt_dir) if x.endswith(".tif")]
-	prcp_files = [os.path.join(prcp_dir,x) for x in os.listdir(prcp_dir) if x.endswith(".tif")]
+	smlt_files = [os.path.join(snodas_dir,x) for x in os.listdir(snodas_dir) if "SMLT" in x and x.endswith(".tif")]
+	prcp_files = [os.path.join(snodas_dir,x) for x in os.listdir(snodas_dir) if "LQD" in x and x.endswith(".tif")]
 
-	print(len(smlt_files))
+	print(len(smlt_files), len(prcp_files))
 
 	# Sort
 	smlt_files.sort()
