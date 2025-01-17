@@ -6,7 +6,6 @@ from rpy2.robjects import pandas2ri
 from rpy2.robjects.conversion import localconverter
 
 # Defining the R script and loading the instance in Python
-
 r = ro.r
 r['source']('baseflow_sep.R')
 
