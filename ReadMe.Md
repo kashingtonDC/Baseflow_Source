@@ -25,14 +25,17 @@ jupyter notebook # launch jupyter to run the notebooks
 ### Download supporting data files, place in relevant dirs
 
 Place in `data` dir: 
-* `/data/Watersheds/`:
+* [data files](https://cpslo-my.sharepoint.com/:u:/g/personal/aaahamed_calpoly_edu/EWnpe51schJPicfnFmAw15QBVJCBqVt2y-ugsme4OJ8X4w?e=HaEpeo)
+* `/data/Watersheds/`
 
 Place in `results` dir: 
-* `/results/bf_te`:
-* `/results/bf_xc`:
+* [results files](https://cpslo-my.sharepoint.com/:u:/g/personal/aaahamed_calpoly_edu/EdwYj1OxxjtKgPtXoMQ8OdwBIGF6AReZGW1AcO6omsgI6A?e=QGm39f)
+* `/results/bf_te`
+* `/results/bf_xc_K180`
 
+#### Next, run Scripts `04-10` process the locally downloaded data and reproduce the figures
 
-### Run scripts in order to fetch additional data, process data, and reproduce the figures 
+### OR Run scripts in order to fetch the raw data data, process data, and reproduce the figures 
 
 Scripts `01-03` fetch and process data. This can take a very long time on a laptop / regular CPU. 
 Scripts `04-10` process the locally downloaded data and can be used to reproduce the figures
